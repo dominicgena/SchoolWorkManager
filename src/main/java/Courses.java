@@ -10,17 +10,23 @@ public class Courses {
     }
     public ArrayList<Course> getCourseList(){ return courseList; }
     public Course getCourse(int index){
-        Iterator<Course> it = courseList.iterator();
         int count = 0;
-
-        while(it.hasNext()){
-            Course c = it.next();
+        for(Course c : courseList){
             if(count == index)
                 return c;
             count++;
         }
         return null;
     }
+
+    public Course getCourse(String code){
+        for (Course c : courseList) {
+            if (c.getCode().equals(code))
+                return c;
+        }
+        return null;
+    }
+
     public String[] getCourseOptions() {
         String[] options = new String[courseList.size()];
         for (int i = 0; i < courseList.size(); i++) options[i] = courseList.get(i).toString();
@@ -49,7 +55,7 @@ public class Courses {
         return c;
     }
 
-    private Course mainEditModeLoop(Scanner courseIn, Course c){
+    private Course mainEditModeLoop(Scanner courseIn, Course c){// i don't like public scanners, might change later
 
         while(true){
             String in = "";
@@ -76,25 +82,29 @@ public class Courses {
             if(criterion == 5) return false;// break from inner loop to go back to action choice
             switch(criterion){
                 case 1:// User wants to change course code
+                    System.out.println("Hint: type 'main menu' during editing to return to menu");
                     System.out.println("Current Course Code: " + c.getCode());
-                    System.out.print("Please enter the new course code, or enter to accept existing: ");
+                    System.out.print("Enter new course code, or enter to accept existing: ");
                     // If user types "CPSC221", it gets changed to "CPSC 221"
                     in = courseIn.nextLine().toUpperCase();
-                    if(!should_return_to_main(in)) c.setCode(in.replaceAll("([a-zA-Z])(\\d)", "$1 $2"));
+                    if(!should_return_to_main(in)) c.setCode(in.replaceAll("([a-zA-Z])(\\d)", "$1 $2"));// ex. replace CSA130 with CSA 130
                     break;
                 case 2:// User wants to change instructor
+                    System.out.println("Hint: type 'main menu' during editing to return to menu");
                     System.out.println("Current Instructor: " + c.getInstructor());
                     System.out.print("Please enter the new instructor, or enter to accept existing: ");
                     in = courseIn.nextLine();
                     if(!should_return_to_main(in)) c.setInstructor(in);
                     break;
                 case 3:// User wants to change location
+                    System.out.println("Hint: type 'main menu' during editing to return to menu");
                     System.out.println("Current Location: " + c.getLocation());
                     System.out.print("Please enter the new location, or enter to accept existing: ");
                     in = courseIn.nextLine();
                     if(!should_return_to_main(in)) c.setLocation(in);
                     break;
                 case 4:// User wants to change credit count
+                    System.out.println("Hint: type 'main menu' during editing to return to menu");
                     System.out.println("Current Credit Count: " + c.getCredits());
                     System.out.print("Please enter the new credit count, or enter existing to cancel: ");
                     in = courseIn.nextLine();
@@ -106,7 +116,7 @@ public class Courses {
         }
         return false;// fallback
     }
-    private boolean should_return_to_main(String s){ if(s.equals("main menu")) return true; else return false; }
+    private boolean should_return_to_main(String s){ if(s.equalsIgnoreCase("main menu")) return true; else return false; }
 
     @Override
     public String toString(){

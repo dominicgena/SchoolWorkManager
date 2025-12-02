@@ -9,6 +9,8 @@ public class Main {
         clist.addCourses(c1,c2);
         int choice1;
 
+        Assignment a1 = new Assignment();
+
         while(true){
             choice1 = menu("Main","Options","Manage Existing Courses","Manage Assignments");
             switch(choice1){

@@ -63,7 +63,6 @@ public class Course {
     public void setLocation(String location)
         {if (safeSet(location, "Location") != null) this.loc = safeSet(location, "Location");}
 
-
     public void setCredits(Integer credits)
         { if (safeSet(credits, "Credits") != null) this.creds = safeSet(credits, "Credits"); }
 

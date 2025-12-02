@@ -1,0 +1,26 @@
+I hated the way I made the Assignment class and wanted to redo it, so I shall do that to begin this brain dump file
+the initial conflict i dealt with for a few weeks (i wasn't prioritizing this project much) was the assignments vs. courses data structure
+the very first thing i did was make each course an arraylist where the first element was the course name, i didn't like that.
+i switched to an array of courses with a fixed size (default 10), and that array stored the arraylist datatype that contained the assignments for each course
+i didn't really like that because of the off-chance I wanted something dynamically expanding later.
+
+Courses are now stored as an ArrayList, storing the Course datatype that contains the course code, instructor, location, and credit count.
+Maybe an average as well in the future, but I probably will never use that feature if I add it because of the LMS's built in average features.
+
+The current conflict is, do I store assignments as one big list of assignments, or do I instantiate lists specific to each course that contain the assignments specific to that course?
+I feel like this doesn't really matter. A master assignment list would present the challenge of determining which course the assignment belongs to, which
+could be easily remedied by storing an "owner course" datatype for each assignment, which is what I had previously.
+A master assignment list would require sorting or searching to get all the assignments specific to a course, but would streamline the retrieval of
+all assignment objects, which would be nice on the frequent occasion a student wants to see their to-do list.
+update - i could store each assignment in the list in a tree. if the course code is the first datatype seen by the tree, it would sort by course automatically
+
+A separate assignment list for each course would make course-specific assignment retrieval very easy, as no searching or sorting a master list would be necessary
+but, that would require retrieving lists for a number of courses I'm not fully aware of or don't control, so that might be tough to automate.
+
+I could also make an assignment list as a member of each course, that might be easy but doesn't make much logical sense.
+I think the best option is an assignment master list. Each assignment would need to store what course it belongs to, the number of points it's worth, the due date,
+the assignment's title, and some kind of progress made on the assignment. Maybe also priority of the assignment, which can default to low if no priority is assigned
+Functions performed on a specific assignment would be editing all its datatypes, deleting an assignment, prioritizing, marking as done, though these
+might mix with editing its datatypes. The options most frequently accessed out of those would probably be prioritizing and marking as done.
+Maybe I'd want to have each option displayed in some sort of list that reorders based on frequent or recent actions. I probably won't end up doing this,
+but it would be fun to try and create my own implementation for that sort of thing. Assignment type is a maybe, I think that can be derived from titles though.
