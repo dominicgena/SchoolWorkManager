@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SchoolWorkManagerMain" type="Application" factoryName="Application">
+    <option name="EMULATE_TERMINAL" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="corretto-24" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="VM_PARAMETERS" value="--enable-native-access=ALL-UNNAMED" />
+    <option name="MAIN_CLASS_NAME" value="Main" />
+    <module name="SchoolWorkManager.main" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

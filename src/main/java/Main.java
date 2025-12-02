@@ -4,8 +4,8 @@ public class Main {
     static Scanner in = new Scanner(System.in);
     public static void main(String[] args) {
         Courses clist = new Courses();
-        Course c1 = new Course("CPSC 221", "Slonka, Kevin", "SCI005", 4);
-        Course c2 = new Course("MATH 110", "Wanyo, Chris", "SCI024", 3);
+        Course c1 = new Course("CPSC 221", "Doe, John", "SCI005", 4);
+        Course c2 = new Course("MATH 110", "Bravo, Joe", "SCI024", 3);
         clist.addCourses(c1,c2);
         int choice1;
 
