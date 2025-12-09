@@ -24,3 +24,55 @@ Functions performed on a specific assignment would be editing all its datatypes,
 might mix with editing its datatypes. The options most frequently accessed out of those would probably be prioritizing and marking as done.
 Maybe I'd want to have each option displayed in some sort of list that reorders based on frequent or recent actions. I probably won't end up doing this,
 but it would be fun to try and create my own implementation for that sort of thing. Assignment type is a maybe, I think that can be derived from titles though.
+
+12/8/2025
+I'm starting to rethink using the lists. I think I'm going to use TreeSets instead, and have courses sort by code and assignments
+sort by priority. A TreeSet would be ideal for searching and retrieving assignments based on course, and it would just
+make most sense to also implement the same thing for courses. I'm also rethinking the menu workflow a good bit, I think I want to
+look into how I can use a HashMap for optimizing the menu logic. I'd like to be able to keep track of where exactly
+the user is in the program and allow them to jump to other places easily. The extreme version of this would be making this program
+command-driven instead of menu-driven, but I think a mixture of the two is more ideal. I'd like to be able to execute a command to go
+back to the previous place at any time. This will be a huge challenge for me, so I'm going to do my best to think through it slowly.
+I need to consider the priority functionality as well. Maybe I want to show assignments with highest priority on top.
+Maybe I want to show assignments in order of due date. I think the compromise would be allowing the user to pick.
+That brings the question, though, how do I show the sorted data?
+- The answer is probably to convert the TreeSet to an array and sort the array
+
+As much as I want this program to help solve the problems I have with tracking assignments, I also want it to be a place I can
+overcome challenges that I wasn't presented with in school.
+
+List format:
+1. Implement TreeSets to Assignments and Courses instead of lists
+    a. Assignments will sort by priority
+    b. courses will sort by course code
+2. Enhance the menu
+    a. Allow the user to go back to their previous screen at any time
+    How? I'm not really sure. I feel like it would implement a HashMap and a stack
+    A HashMap to store each screen, and a stack to store the key to the previous screen, wherever a user is.
+    Wouldn't that make it impossible to go back more than one, in order to follow the LIFO structure?
+    No, I'm not sure why I thought this. I was in the mindset that the stack could have a max of 1 item at a time, but that's not how they work
+    Every screen the user changes to, I push to a "back" stack. When they decide to go back, their current screen gets popped from the stack
+    Simultaneously, the screen they traveled back from gets pushed to a "forward" stack. When the user wants to travel back to the forward screen,
+    pop from the forward stack and push to the back stack.
+    This introduces the question of "What if the user goes back, selects a different option from the previous screen, then goes back again
+    in attempt to get where they were in the first place?" The current screen gets pushed to backStack, and forwardStack gets cleared. I'm going to
+    compare this to the classic undo/redo operations, I think it's very similar. I'm reading https://heycoach.in/blog/stack-for-undo-redo-operations/
+    to figure out the lower level details of how this works
+
+    UndoRedo is its own class (Navigator for me). The constructor initializes an empty undoStack (backStack) and redoStack (fwdStack) array (probably not an
+    array, I don't this language)
+    performAction(action), I assume is a generic representation of any decision the user can make. The action pushes itself to the undoStack,
+    and the redoStack clears itself (takes care of the navigation problem I talked previously about). It would be imperative that undoing would
+    not be recognized as an action, because that would flood the stack
+    It seems it's not just a generic representation of a decision, rather a method that should be called each time a user does something.
+
+    undo() immediately returns null if the stack is empty. Otherwise, the action is declared as a constant equal to the output of popping the undoStack.
+    performing an undo pushes the popped action from the undoStack to the redoStack, and finally returns the action.
+
+    redo() returns null if the redoStack is empty. action is again defined as a constant, this time equal to the output of popping the redoStack.
+    then the method pushes the action to Navigator's undoStack, and returns action.
+
+    After some research, an EnumMap seems like a better option than a HashMap. Either that or a switch statement that, within each case,
+    sets the switch variable before breaking and jumps right back into where the user intended to go. This might be easier because it would
+    allow the stacks to store each visited switch option as their value, and popping from a navigation stack could easily start the switch
+    from the beginning and select the correct case variable. Honestly, I think that makes a lot more sense, but I'm going to meditate on it for a bit first.
