@@ -18,10 +18,13 @@ A separate assignment list for each course would make course-specific assignment
 but, that would require retrieving lists for a number of courses I'm not fully aware of or don't control, so that might be tough to automate.
 
 I could also make an assignment list as a member of each course, that might be easy but doesn't make much logical sense.
-I think the best option is an assignment master list. Each assignment would need to store what course it belongs to, the number of points it's worth, the due date,
-the assignment's title, and some kind of progress made on the assignment. Maybe also priority of the assignment, which can default to low if no priority is assigned
-Functions performed on a specific assignment would be editing all its datatypes, deleting an assignment, prioritizing, marking as done, though these
-might mix with editing its datatypes. The options most frequently accessed out of those would probably be prioritizing and marking as done.
+
+REVISION - each assignment can store its owner as a Course object, but retrieving assignments falling under a particular course should be dealt with outside
+of the Assignment class, which differs from the previous structure. This is a necessary change for everything to adapt to potential future implementations
+and to stay loyal to OOP. I think the best option is an assignment master list. Each assignment would need to store what course it belongs to, the number of
+points it's worth, the due date, the assignment's title, and some kind of progress made on the assignment. Maybe also priority of the assignment, which can
+default to low if no priority is assigned. Functions performed on a specific assignment would be editing all its datatypes, deleting an assignment, prioritizing,
+marking as done, though these might mix with editing its datatypes. The options most frequently accessed out of those would probably be prioritizing and marking as done.
 Maybe I'd want to have each option displayed in some sort of list that reorders based on frequent or recent actions. I probably won't end up doing this,
 but it would be fun to try and create my own implementation for that sort of thing. Assignment type is a maybe, I think that can be derived from titles though.
 
@@ -76,3 +79,12 @@ List format:
     sets the switch variable before breaking and jumps right back into where the user intended to go. This might be easier because it would
     allow the stacks to store each visited switch option as their value, and popping from a navigation stack could easily start the switch
     from the beginning and select the correct case variable. Honestly, I think that makes a lot more sense, but I'm going to meditate on it for a bit first.
+
+    12/20/25 - I've decided on a switch structure. The switch variable can be an enum type that directly tracks what screen the user is on.
+    I could've sworn I was using a TreeSet for everything and already made compareTo methods for each, but maybe I'm just going crazy. I'll start
+    with ensuring each of the data classes are correct first
+
+I've realized that it would be more object-oriented to make Assignment(s) not search for its owner, and instead have some higher level logic pass the owner
+to the Assignment constructor. This would ensure Assignment is only aware of its own data. It's a little intimidating because I'm struggling to think with
+that structure as it differs from my past practices, but I have to "grow out" of this at some point. I'm currently looking back on all the progress I made
+with thinking of the back/forward menu structure and beating myself up for thinking about that whenever Assignment was pulling logic from Courses the whole time.

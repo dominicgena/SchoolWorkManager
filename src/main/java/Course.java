@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Course {
+public class Course implements Comparable<Course>{
     private String c, inst, loc;// code, instructor, location
     private Integer creds;// number of credits
 
@@ -38,6 +38,11 @@ public class Course {
         return this.toString(true).replaceAll("[\\[\\]]", "");
     }
     //endregion toString
+
+    @Override
+    public int compareTo(Course o) {
+        return this.getCode().toUpperCase().compareTo(o.getCode().toUpperCase());
+    }
 
     @Override
     public boolean equals(Object o) {
