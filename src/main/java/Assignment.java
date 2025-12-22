@@ -1,25 +1,53 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Assignment extends Courses {
-    //region attributes
-    private Course owner;// The course the assignment belongs to
+public class Assignment {
+    // region constructor
+    public Assignment(Course owner, String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){// master constructor
+        setOwner(owner);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(mm,dd,yyyy);
+    }
+
+    public Assignment(String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){
+        setOwner(null);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(mm,dd,yyyy);
+    }// praying for the compiler to not viciously attack me
+
+    public Assignment(String title, int points, Priority assignmentPriority){// if assignment doesn't have a due date, make it due 1/1/1970
+        setOwner(null);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(1,1,1970);
+    }
+
+    public Assignment(){ this(new Course(),"Assignment",100,Priority.NEGLIGIBLE,1,1,1970); }
+    // endregion constructor
+
+    // region overrides
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getTitle() + "\n").append("     Points: " + this.getPoints() + "\n").append("     Priority: " + this.getPriority() + "\n");
+        if(this.getOwner() != null) sb.append("     Belongs to: " + this.getOwner().getCode()).append("\n");
+        if(!this.getDueDate().equals(LocalDate.of(1970,1,1))) sb.append("     Due Date: " + this.getDueDate() + "\n");
+        else sb.append("     No due date\n");
+        return sb.toString();
+    }
+    // endregion overrides
+
+    //region fields
     private String title;
     private Integer points;
-    private priority priority;
+    private Priority assignmentPriority;
     private LocalDate dueDate;
+    private Course owner;
 
-    public enum priority{
-        negligible, very_low, low, medium, high, very_high, do_this_right_now
+    public enum Priority{
+        NEGLIGIBLE, VERY_LOW, LOW, MEDIUM, HIGH, VERY_HIGH, DO_THIS_RIGHT_NOW
     }//endregion
 
+    // region setters and getters
     //region setters
-    public void setOwner(Course courseObject){ this.owner = courseObject; }
-    public void setOwner(String courseCode) { this.owner = getCourse(courseCode); }// you can also pass the course code
-    public void setOwner(Integer courseIndex) { this.owner = getCourse(courseIndex); }// and index. might be overkill but I can always delete
+    public void setOwner(Course course){
+        this.owner = course; }
     public void setTitle(String title) { this.title = title; }
     public void setPoints(Integer points) { this.points = points; }
-    public void setPriority(priority assignmentPriority) { this.priority = assignmentPriority; }
+    public void setAssignmentPriority(Priority assignmentPriority) { this.assignmentPriority = assignmentPriority; }
     public void setDueDate(Integer mm, Integer dd, Integer yyyy){
         String dateString = String.format("%02d/%02d/%d", mm, dd, yyyy);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -27,9 +55,10 @@ public class Assignment extends Courses {
     }//endregion
 
     //region getters
-    public Course getOwner(){ return this.owner; }
+    public Course getOwner() { return this.owner; }
     public String getTitle(){ return this.title; }
     public Integer getPoints() { return this.points; }
-    public priority getPriority() { return this.priority; }
+    public Priority getPriority() { return this.assignmentPriority; }
     public LocalDate getDueDate() { return this.dueDate; }//endregion
+    // endregion setters and getters
 }

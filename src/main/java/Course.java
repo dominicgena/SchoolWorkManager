@@ -1,9 +1,10 @@
 import java.util.Objects;
 
 public class Course implements Comparable<Course>{
-    private String c, inst, loc;// code, instructor, location
-    private Integer creds;// number of credits
+    private String code, instructor, location;
+    private Integer credits;// number of credits
 
+    // region constructors
     public Course(){
         this("Code", "Instructor", "Location", 0);
     }
@@ -14,7 +15,9 @@ public class Course implements Comparable<Course>{
         setLocation(location);
         setCredits(credits);
     }
+    // endregion constructors
 
+    // region overrides
     //region toString
     public String toString(boolean bare){
         StringBuilder c = new StringBuilder();
@@ -30,6 +33,7 @@ public class Course implements Comparable<Course>{
 
         return c.toString().replaceAll("[\\[\\]]", "");
     }
+
 
     @Override
     public String toString() {
@@ -50,32 +54,44 @@ public class Course implements Comparable<Course>{
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
         // Check if the unique code (e.g., "CPSC 221") is the same
-        return Objects.equals(c, course.c);
+        return Objects.equals(code, course.code);
     }
 
     @Override
     public int hashCode() {
         // Generate a hash based on the code
-        return Objects.hash(c);
-    }
+        return Objects.hash(code);
+    }// probably not needed anymore
+    // endregion overrides
 
+    // region setters and getters
+    // region setters
     public void setCode(String code)
-        { if (safeSet(code, "Code") != null) this.c = safeSet(code, "Code"); }// set only if passed value is safe
+        { if (safeSet(code, "Code") != null) this.code = safeSet(code, "Code"); }// set only if passed value is safe
 
     public void setInstructor(String instructor)
-        { if (safeSet(instructor, "Instructor") != null) this.inst = safeSet(instructor, "Instructor"); }
+        { if (safeSet(instructor, "Instructor") != null) this.instructor = safeSet(instructor, "Instructor"); }
 
     public void setLocation(String location)
-        {if (safeSet(location, "Location") != null) this.loc = safeSet(location, "Location");}
+        {if (safeSet(location, "Location") != null) this.location = safeSet(location, "Location");}
 
     public void setCredits(Integer credits)
-        { if (safeSet(credits, "Credits") != null) this.creds = safeSet(credits, "Credits"); }
+        { if (safeSet(credits, "Credits") != null) this.credits = safeSet(credits, "Credits"); }
 
-    public String getCode(){ return c; }
-    public String getInstructor() { return inst; }
-    public String getLocation() { return loc; }
-    public Integer getCredits() { return creds; }
+    public void addAssignment(Assignment a){
+        a.setOwner(this);
+    }
+    // endregion setters
 
+    // region getters
+    public String getCode(){ return code; }
+    public String getInstructor() { return instructor; }
+    public String getLocation() { return location; }
+    public Integer getCredits() { return credits; }
+    // endregion getters
+    // endregion setters and getters
+
+    // region helpers
     private <T> T safeSet(T data, String criteria){
         if (data == null) {
             System.out.println(criteria + " Cannot be null");
@@ -95,4 +111,5 @@ public class Course implements Comparable<Course>{
         }
         return data;
     }
+    // endregion helpers
 }

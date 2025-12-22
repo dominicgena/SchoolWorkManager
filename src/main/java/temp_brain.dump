@@ -87,4 +87,27 @@ List format:
 I've realized that it would be more object-oriented to make Assignment(s) not search for its owner, and instead have some higher level logic pass the owner
 to the Assignment constructor. This would ensure Assignment is only aware of its own data. It's a little intimidating because I'm struggling to think with
 that structure as it differs from my past practices, but I have to "grow out" of this at some point. I'm currently looking back on all the progress I made
-with thinking of the back/forward menu structure and beating myself up for thinking about that whenever Assignment was pulling logic from Courses the whole time.
+with thinking of the back/forward menu structure and beating myself up for thinking about that whenever Assignment was pulling logic from Courses the whole time
+(kidding, it's not that serious).
+
+This puts me in a tough situation when it comes to what to do. Is the assignments list part of the Course constructor? That would solve the problem of ever having to
+search, but would increase the difficulty of getting all assignments and sorting by priority. I can picture the process of adding an assignment though, it could be
+something like c3.addAssignment(...)
+It seems like I can still have the {course}.addAssignment(...) structure without choosing not to have a master list, it makes a lot of sense to just add the
+assignment to the masterList while independently setting its owner to the course object. Although not particularly intimidating, this seems a little new to me.
+Before moving on, I want to dissect what makes this challenging to me. I'm passing a value to a different constructor (Assignment) in the addAssignment operation of the
+Course object. Essentially, I'm injecting a dependency (Assignment) into the working constructor (Course). Even though the Course isn't storing an assignments list
+object, I call the addition of an assignment on the course constructor to set the "working constructor" (not sure of the terminology so hope this makes sense) as the
+owner of the assignment being added. Google says this technique is called dependency injection, which is what I would've called it so it makes sense. I'm pretty
+proud of myself for thinking of this.
+
+In summary:
+Course c2 = new Course("MATH 110", "Bravo, Joe", "SCI024", 3);
+c3.addAssignment(this,title,points,priority,mm,dd,yyyy);
+Hopefully it works exactly like that, I don't see why it wouldn't.
+
+I've noticed that adding an assignment and setting the owner to "this" might require the Assignment constructor to be null-safe for owner
+
+I think I've taken care of that problem, I will test in main now.
+Testing in main worked, now, I'm going to make the constructor initialization in Assignment not be so hideous
+

@@ -7,23 +7,16 @@ public class Main {
         Course c1 = new Course("CPSC 221", "Doe, John", "SCI005", 4);
         Course c2 = new Course("MATH 110", "Bravo, Joe", "SCI024", 3);
         clist.addCourses(c1,c2);
-        int choice1;
 
-        Assignment a1 = new Assignment();
+        Assignment a1 = new Assignment("Evaluating Trig Functions",20, Assignment.Priority.HIGH,12,31,2025);
+        System.out.println(a1);
 
-        while(true){
-            choice1 = menu("Main","Options","Manage Existing Courses","Manage Assignments");
-            switch(choice1){
-                case 1:
-                    clist.handleCourse(
-                            menu("Manage Courses","Manageable Courses",clist.getCourseOptions())
-                    );
-                    break;
-                case 2:
-                    menu("Manage Assignments","From Course",clist.getCourseOptions());
-                    break;
-            }
-        }
+        a1.setOwner(c2);
+        System.out.println(a1);
+
+
+
+
     }
 
 
