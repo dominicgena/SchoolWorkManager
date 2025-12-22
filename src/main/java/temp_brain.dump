@@ -111,5 +111,37 @@ I've noticed that adding an assignment and setting the owner to "this" might req
 I think I've taken care of that problem, I will test in main now.
 Testing in main worked, now, I'm going to make the constructor initialization in Assignment not be so hideous
 
-While doing that, I decided to
+While doing that, I realized I should be extra careful that the default constructors for Assignment actually cover all potential input circumstances
 
+Full constructor:
+public Assignment(Course owner, String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){// master constructor
+        setOwner(owner);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(mm,dd,yyyy);
+    }
+
+A course should be able to be called without passing:
+    the owner, the priority, and the due date (mm,dd,yyyy)
+    maybe it should be possible to call it without passing the number of points too. I won't implement that just yet, but I'll consider it here just in case
+    a reason arises that I should add it later.
+
+    The challenge is that any combination of the absence of these arguments should not break the program. I think using a truth table would make the most sense for figuring this out
+    This table demonstrates the expression "The possesses this argument"
+ #    Owner   Priority    Points  Due Date
+ 1        0          0         0         0    - Not A, Not B, Not C, Not D -> Nothing (default constructor)
+ 2        0          0         0         1    - Not A, Not B, Not C,     D    ->   No owner, no priority, no points, yes due date
+ 3        0          0         1         0    - Not A, Not B,     C, Not D    ->   No owner, no priority, yes points, no date
+ 4        0          0         1         1    - Not A, Not B,     C,     D    ->   No owner, no priority, yes points, yes date
+ 5        0          1         0         0    - Not A,     B, Not C, Not D    ->   No owner, yes priority, no points, no date
+ 6        0          1         0         1    - Not A,     B, Not C,     D    ->   No owner, yes priority, no points, yes date
+ 7        0          1         1         0    - Not A,     B,     C, Not D    ->   No owner, yes priority, yes points, no date
+ 8        0          1         1         1    - Not A,     B,     C,     D    ->   No owner, yes priority, yes points, yes date
+ 9        1          0         0         0    -     A, Not B, Not C, Not D    ->   Yes owner, No priority, no points, no date
+10        1          0         0         1    -     A, Not B, Not C,     D    ->   Yes owner, no priority, no points, yes date
+11        1          0         1         0    -     A, Not B,     C, Not D    ->   Yes owner, no priority, yes points, no date
+12        1          0         1         1    -     A, Not B,     C,     D    ->   Yes owner, no priority, yes points, yes date
+13        1          1         0         0    -     A,     B, Not C, Not D    ->   Yes owner, yes priority, no points, no date
+14        1          1         0         1    -     A,     B, Not C,     D    ->   Yes owner, yes priority, no points, yes date
+15        1          1         1         0    -     A,     B,     C, Not D    ->   Yes owner, yes priority, yes points, no date
+16        1          1         1         1    -     A,     B,     C,     D    ->   Everything (full constructor)
+
+Do I really need to write 16 constructors to cover every possible scenario? That sounds like an unintuitive nightmare. I'm gonna ask some smart people on a discord server and see what they say.
+I'm going to stop here for the night. Hopefully my answer is that I do not have to make 16 different constructors.

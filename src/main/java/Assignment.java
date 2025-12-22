@@ -3,28 +3,28 @@ import java.time.format.DateTimeFormatter;
 
 public class Assignment {
     // region constructor
-    public Assignment(Course owner, String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){
+    public Assignment(Course owner, String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){// master constructor
         setOwner(owner);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(mm,dd,yyyy);
     }
 
-    public Assignment(String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){
-        setOwner(null);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(mm,dd,yyyy);
+    public Assignment(String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){// if called with no owner
+        this(null, title, points, assignmentPriority, mm, dd, yyyy);
     }// praying for the compiler to not viciously attack me
 
     public Assignment(String title, int points, Priority assignmentPriority){// if assignment doesn't have a due date, make it due 1/1/1970
-        setOwner(null);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(1,1,1970);
+        this(null, title, points, assignmentPriority, 1,1,1970);
     }
 
-    public Assignment(){ this(new Course(),"Assignment",100,Priority.NEGLIGIBLE,1,1,1970); }
+    public Assignment(){ this(null, "Assignment", 100, Priority.NEGLIGIBLE, 1, 1, 1970); }
     // endregion constructor
 
     // region overrides
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getTitle() + "\n").append("     Points: " + this.getPoints() + "\n").append("     Priority: " + this.getPriority() + "\n");
-        if(this.getOwner() != null) sb.append("     Belongs to: " + this.getOwner().getCode()).append("\n");
-        if(!this.getDueDate().equals(LocalDate.of(1970,1,1))) sb.append("     Due Date: " + this.getDueDate() + "\n");
+        sb.append(this.getTitle()).append("\n").append("     Points: ").append(this.getPoints()).append("\n").append("     Priority: ").append(this.getPriority()).append("\n");
+        if(this.getOwner() != null) sb.append("     Belongs to: ").append(this.getOwner().getCode()).append("\n");
+        if(!this.getDueDate().equals(LocalDate.of(1970,1,1))) sb.append("     Due Date: ").append(this.getDueDate()).append("\n");
         else sb.append("     No due date\n");
         return sb.toString();
     }
