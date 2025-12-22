@@ -111,3 +111,5 @@ I've noticed that adding an assignment and setting the owner to "this" might req
 I think I've taken care of that problem, I will test in main now.
 Testing in main worked, now, I'm going to make the constructor initialization in Assignment not be so hideous
 
+While doing that, I decided to
+

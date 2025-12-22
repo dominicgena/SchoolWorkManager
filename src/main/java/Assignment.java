@@ -3,7 +3,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Assignment {
     // region constructor
-    public Assignment(Course owner, String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){// master constructor
+    public Assignment(Course owner, String title, int points, Priority assignmentPriority, int mm, int dd, int yyyy){
         setOwner(owner);setTitle(title);setPoints(points);setAssignmentPriority(assignmentPriority);setDueDate(mm,dd,yyyy);
     }
 
