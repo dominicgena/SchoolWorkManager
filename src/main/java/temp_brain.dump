@@ -145,3 +145,41 @@ A course should be able to be called without passing:
 
 Do I really need to write 16 constructors to cover every possible scenario? That sounds like an unintuitive nightmare. I'm gonna ask some smart people on a discord server and see what they say.
 I'm going to stop here for the night. Hopefully my answer is that I do not have to make 16 different constructors.
+
+A little belated because I've been more focused on a community project, but my answer was no, I don't need to make 16 different constructors.
+The answer is a java builder pattern. I will be referring to this link to learn about them: https://www.baeldung.com/java-builder-pattern
+That page brought up more questions than answers. Stackoverflow has a section saying "The builder pattern is a good choice when designing classes whose
+constructors or static factories would have more than a handful of parameters," which matches my case exactly. It explains the telescoping constructor pattern
+as having a problem that once the constructors are 4 or 5 parameters long, it becomes difficult to remember the parameter order. This is definitely true, and I'm
+gonna continue being patient even though I don't see it mentioning the 2^n (n is number of arguments, testing the presence or absence) problem.
+It seems like the simplicity comes from the fact that you're assigning values to a different object, then passing that object to the currently telescoped constructor.
+Instead of calling Pizza pizza = new Pizza(true, true, false, true), you assign those values to a Builder object and pass the builder object to the Pizza constructor.
+The pizza constructor would no longer accept a ton of arguments, just the one builder argument. Inside the Pizza constructor, the pizza's private parameters are set
+to the builder's values. But wouldn't this just mean I have the same problem in a new place? This also confuses me because of the differences in arguments. I'm worried
+about how it will work with non-booleans. Maybe the booleans are the test for the presence or absence of an argument?
+
+This article might be more helpful, it actually mentions the presence of optional parameters
+https://www.digitalocean.com/community/tutorials/builder-design-pattern-in-java
+
+1. Create a static nested class (builder class) and copy all the arguments from the outer class (Assignment) into the Builder class. The builder class should be named
+AssignmentBuilder.
+2. The java Builder class should have a public constructor with all the required attributes as parameters. This is where I'm stuck. I think this means the non-optional
+parameters, so all the parameters that aren't owner, priority, points, and due date.
+3. The Java builder class should have methods that set the optional parameters and return the same Builder object after setting the optional attribute.
+4. Provide a build() method in the builder class that will return the Object needed by client program (Assignment). For this, a private constructor is needed in the class
+with Builder class as argument.
+So, is the builder called when an assignment is needed, then separate logic inserts the chosen optional parameters into the Assignment object created by the Builder?
+I'm confused by the fact that the provided sample builder pattern example code has optional booleans for isGraphicsCardEnabled and isBluetoothEnabled,
+but I feel like this doesn't match my situation enough for confidence because it doesn't actually assign values to the type of graphics card or bluetooth chip,
+but if it did, it would be a lot more similar to my situation because I actually need to have non-boolean values for owner, priority, points, and due date.
+
+The Computer class (Assignment for me) will have only getter methods and no public constructor, so the Assignment object could only be accessed through AssignmentBuilder
+
+Computer comp = new Computer.ComputerBuilder(
+				"500 GB", "2 GB").setBluetoothEnabled(true)
+				.setGraphicsCardEnabled(true).build();
+            This clears it up a lot. The setters are attached to the end as needed, and it's clear they don't just have to be boolean. I was incorrectly connecting my
+            truth table determining the potential need for 16 telescoped constructors with the fact that every example I saw was using booleans. I'm going to wrap up
+            the day's work by watching the video attached to that article (https://www.youtube.com/watch?v=D5NK5qMM14g) just to make sure I'm understanding everything
+            fully. Today's work needed to be brief because I wasn't allowing myself to work on another project until I worked on this a little. Hopefully next time,
+            I can actually get to the implementation
